@@ -1,11 +1,5 @@
 import { Photos } from './../../photos';
-import {
-    Component,
-    Input,
-    OnChanges,
-    OnInit,
-    SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
     selector: 'app-photos',
@@ -13,10 +7,12 @@ import {
     styleUrls: ['./photos.component.css'],
 })
 export class PhotosComponent implements OnChanges {
-    @Input() photos: Photos = [];
+    @Input() photos: Photos;
     rows!: Array<Photos>;
 
-    constructor() {}
+    constructor() {
+        this.photos = new Array();
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (!!changes.photos && this.photos) {
@@ -32,5 +28,9 @@ export class PhotosComponent implements OnChanges {
         }
 
         return newRows;
+    }
+
+    hasPhotos() {
+        return this.photos.length > 0;
     }
 }

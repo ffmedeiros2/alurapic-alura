@@ -1,1 +1,18 @@
-<app-photos [photos]="photos"></app-photos>
+<div
+    class="d-flex mb-3 mt-3 flex-wrap align-items-center justify-content-center"
+>
+    <form>
+        <div>
+            <input
+                type="search"
+                class="form-control"
+                placeholder="Search..."
+                aria-label="Search"
+                spellcheck="false"
+                (keyup)="filter($event.target)"
+                autofocus
+            />
+        </div>
+    </form>
+</div>
+<app-photos [photos]="photos | filterByDescription: filterString"></app-photos>

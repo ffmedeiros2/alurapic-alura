@@ -1,4 +1,4 @@
-<ol class="list-unstyled">
+<ol class="list-unstyled" *ngIf="hasPhotos(); else noPhotos">
     <li *ngFor="let cols of rows" class="row">
         <div *ngFor="let photo of cols" class="col-4">
             <app-photo
@@ -8,3 +8,6 @@
         </div>
     </li>
 </ol>
+<ng-template #noPhotos>
+    <p class="text-center text-muted">Sorry, no photos were found =(</p>
+</ng-template>
