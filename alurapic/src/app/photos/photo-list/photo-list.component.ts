@@ -9,7 +9,7 @@ import { PhotosService } from '../photos.service';
     styleUrls: ['./photo-list.component.css'],
 })
 export class PhotoListComponent implements OnInit {
-    photos: Photos = [];
+    photos!: Photos;
 
     constructor(
         private photosService: PhotosService,
