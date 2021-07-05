@@ -1,29 +1,6 @@
-<form>
-    <div
-        class="
-            d-flex
-            flex-row
-            mb-3
-            mt-3
-            align-items-center
-            justify-content-center
-        "
-    >
-        <div class="p-1">
-            <i aria-hidden="true" class="fa fa-search"></i>
-        </div>
-        <div class="w-25">
-            <input
-                type="search"
-                class="form-control"
-                placeholder="Search..."
-                aria-label="Search"
-                spellcheck="false"
-                (keyup)="filter($event.target)"
-                autofocus
-            />
-        </div>
-    </div>
-</form>
+<app-search
+    (onTyping)="filterString = $event"
+    [value]="filterString"
+></app-search>
 <app-photos [photos]="photos | filterByDescription: filterString"></app-photos>
 <app-load-button (click)="load()" [hasMore]="hasMore"></app-load-button>
