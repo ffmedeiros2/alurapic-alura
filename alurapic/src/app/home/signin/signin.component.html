@@ -1,0 +1,49 @@
+<h4 class="text-center">Login</h4>
+
+<form [formGroup]="loginForm" class="form mt-4">
+    <div class="form-group mb-3">
+        <input
+            formControlName="userName"
+            class="form-control"
+            placeholder="User name"
+            autofocus
+        />
+        <small
+            *ngIf="
+                loginForm.get('userName')?.errors?.required &&
+                loginForm.get('userName')?.touched
+            "
+            class="text-danger d-block mt-2"
+        >
+            User name is required!
+        </small>
+    </div>
+    <div class="form-group mb-3">
+        <input
+            formControlName="password"
+            type="password"
+            class="form-control"
+            placeholder="Password"
+        />
+        <small
+            *ngIf="
+                loginForm.get('password')?.errors?.required &&
+                loginForm.get('password')?.touched
+            "
+            class="text-danger d-block mt-2"
+        >
+            Password is required!
+        </small>
+    </div>
+    <div class="d-grid gap-2">
+        <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="loginForm.invalid"
+        >
+            Login
+        </button>
+    </div>
+</form>
+
+<p>Not a user? <a>Register now</a></p>
