@@ -1,6 +1,6 @@
 <ol class="list-unstyled" *ngIf="hasPhotos(); else noPhotos">
     <li *ngFor="let cols of rows" class="row">
-        <div *ngFor="let photo of cols" class="col-4" darkenOnHover>
+        <div *ngFor="let photo of cols" class="col-4 g-0" darkenOnHover>
             <app-card>
                 <app-photo
                     [url]="photo.url"
