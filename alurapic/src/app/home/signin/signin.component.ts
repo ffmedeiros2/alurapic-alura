@@ -27,6 +27,11 @@ export class SigninComponent implements OnInit {
         });
     }
 
+    ngAfterViewInit() {
+        this.platformDetectorService.isPlatformBrowser() &&
+            this.userNameInput.nativeElement.focus();
+    }
+
     login() {
         const userName = this.loginForm.get('userName')?.value ?? '';
         const password = this.loginForm.get('password')?.value ?? '';
