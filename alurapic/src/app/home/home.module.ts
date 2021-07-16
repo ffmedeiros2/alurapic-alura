@@ -1,3 +1,4 @@
+import { SignupService } from './signup/signup.service';
 import { HomeRoutingModule } from './home.routing.module';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -18,5 +19,6 @@ import { HomeComponent } from './home.component';
         RouterModule,
         HomeRoutingModule,
     ],
+    providers: [SignupService],
 })
 export class HomeModule {}

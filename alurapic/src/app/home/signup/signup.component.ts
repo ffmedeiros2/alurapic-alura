@@ -11,6 +11,7 @@ import { PlatformDetectorService } from 'src/app/core/platform-detector/platform
     selector: 'app-signup',
     templateUrl: './signup.component.html',
     styleUrls: ['./signup.component.css'],
+    providers: [UserNotTakenService],
 })
 export class SignupComponent implements OnInit {
     signupForm!: FormGroup;
