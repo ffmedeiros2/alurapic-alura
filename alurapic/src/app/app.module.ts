@@ -1,5 +1,4 @@
 import { CoreModule } from './core/core.module';
-import { HomeModule } from './home/home.module';
 import { ErrorsModule } from './errors/errors.module';
 import { AppRoutingModule } from './app.routing.module';
 import { PhotosModule } from './photos/photos.module';
@@ -13,10 +12,9 @@ import { AppComponent } from './app.component';
     imports: [
         BrowserModule,
         PhotosModule,
-        AppRoutingModule,
         ErrorsModule,
-        HomeModule,
         CoreModule,
+        AppRoutingModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
