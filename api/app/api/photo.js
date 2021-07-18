@@ -1,12 +1,12 @@
-const { PhotoDao, UserDao } = require('../infra')
-    , jimp = require('jimp')
-    , path = require('path')
-    , fs = require('fs')
-    , unlink = require('util').promisify(fs.unlink);
+const { PhotoDao, UserDao } = require('../infra'),
+    jimp = require('jimp'),
+    path = require('path'),
+    fs = require('fs'),
+    unlink = require('util').promisify(fs.unlink);
 
-const api = {}
+const api = {};
 
-const userCanDelete = user => photo => photo.userId == user.id;
+const userCanDelete = (user) => (photo) => photo.userId == user.id;
 
 const defaultExtension = '.jpg';
 
@@ -15,16 +15,17 @@ api.list = async (req, res) => {
     const { userName } = req.params;
     const { page } = req.query;
     const user = await new UserDao(req.db).findByName(userName);
-    if(user) {
+    if (user) {
         console.log(`Listing photos`);
-        const photos = await new PhotoDao(req.db)
-            .listAllFromUser(userName, page);
+        const photos = await new PhotoDao(req.db).listAllFromUser(
+            userName,
+            page
+        );
         res.json(photos);
     } else {
-        res.status(404).json({ message: 'User not found'});
+        res.status(404).json({ message: 'User not found' });
     }
-    
-}
+};
 
 api.add = async (req, res) => {
     console.log('####################################');
@@ -36,35 +37,30 @@ api.add = async (req, res) => {
 };
 
 api.addUpload = async (req, res) => {
+    console.log('upload complete');
+    console.log('Photo data', req.body);
+    console.log('File info', req.file);
 
-        console.log('upload complete');
-        console.log('Photo data', req.body);
-        console.log('File info', req.file);
+    const image = await jimp.read(req.file.path);
 
-        const image = await jimp.read(req.file.path);
+    await image.cover(460, 460).autocrop().write(req.file.path);
 
-        await image
-            .exifRotate()
-            .cover(460, 460)
-            .autocrop()
-            .write(req.file.path);  
-                
-        const photo = req.body;
-        photo.url = path.basename(req.file.path);
-        await new PhotoDao(req.db).add(photo, req.user.id);
-        res.status(200).end();       
+    const photo = req.body;
+    photo.url = path.basename(req.file.path);
+    await new PhotoDao(req.db).add(photo, req.user.id);
+    res.status(200).end();
 };
 
 api.findById = async (req, res) => {
     const { photoId } = req.params;
     console.log('####################################');
-    console.log(`Finding photo for ID ${photoId}`)
+    console.log(`Finding photo for ID ${photoId}`);
     const photo = await new PhotoDao(req.db).findById(photoId);
-    if(photo) {
+    if (photo) {
         res.json(photo);
     } else {
-        res.status(404).json({ message: 'Photo does not exist'})
-    }  
+        res.status(404).json({ message: 'Photo does not exist' });
+    }
 };
 
 api.remove = async (req, res) => {
@@ -72,14 +68,14 @@ api.remove = async (req, res) => {
     const { photoId } = req.params;
     const dao = new PhotoDao(req.db);
     const photo = await dao.findById(photoId);
-    if(!photo) {
+    if (!photo) {
         const message = 'Photo does not exist';
         console.log(message);
         return res.status(404).json({ message });
     }
-    
-    if(userCanDelete(user)(photo)) {
-        await dao.remove(photoId)
+
+    if (userCanDelete(user)(photo)) {
+        await dao.remove(photoId);
         console.log(`Photo ${photoId} deleted!`);
         res.status(200).end();
     } else {
@@ -87,7 +83,7 @@ api.remove = async (req, res) => {
             Forbiden operation. User ${user.id} 
             can delete photo from user ${photo.userId}
         `);
-        res.status(403).json({ message: 'Forbidden'});
+        res.status(403).json({ message: 'Forbidden' });
     }
 };
 
@@ -95,7 +91,7 @@ api.like = async (req, res) => {
     const { photoId } = req.params;
     const dao = new PhotoDao(req.db);
     const liked = await dao.likeById(photoId, req.user.id);
-    if(liked) {
+    if (liked) {
         console.log(`User ${req.user.name} liked photo ${photoId}`);
         return res.status(201).end();
     }
