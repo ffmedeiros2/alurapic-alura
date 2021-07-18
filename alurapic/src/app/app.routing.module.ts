@@ -27,6 +27,7 @@ const routes: Routes = [
     {
         path: 'photo/add',
         component: PhotoFormComponent,
+        canActivate: [AuthGuard],
     },
     {
         path: '**',
