@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Photos } from './photos';
+import { PhotoComments } from './photo-comment';
+import { Photo, Photos } from './photos';
 
 const API = 'http://localhost:3000';
 @Injectable({
@@ -26,5 +27,9 @@ export class PhotosService {
         formData.append('imageFile', file);
 
         return this.http.post(`${API}/photos/upload`, formData);
+    }
+
+    findById(id: number) {
+        return this.http.get<Photo>(`${API}/photos/${id}`);
     }
 }
