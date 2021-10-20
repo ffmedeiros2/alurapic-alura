@@ -32,4 +32,8 @@ export class PhotosService {
     findById(id: number) {
         return this.http.get<Photo>(`${API}/photos/${id}`);
     }
+
+    getComments(id: number) {
+        return this.http.get<PhotoComments>(`${API}/photos/${id}/comments`);
+    }
 }
